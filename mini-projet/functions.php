@@ -1,20 +1,65 @@
 <?php
 function getPets() {
-    echo "Getting pets.<br>";
+    global $pets;
+    return $pets;
 }
 
 function getPet($name) {
-    echo "Getting pet with name '$name'.<br>";
+    global $pets;
+    if (array_key_exists($name, $pets)) {
+        return $pets[$name];
+    } else {
+        return false;
+    }
 }
 
 function addPet($name, $age) {
-    echo "Adding $name, who is $age years old.<br>";
+    global $pets;
+    $pets[$name] = [
+        'name' => $name,
+        'age' => $age
+    ];
+    return $pets[$name];
 }
 
 function updatePet($name, $age) {
-    echo "Updating pet with name '$name' to be $age years old.<br>";
+    global $pets;
+    if (array_key_exists($name, $pets)) {
+        $pets[$name]['age'] = $age;
+        return $pets[$name];
+    } else {
+        return false;
+    }
 }
 
 function removePet($name) {
-    echo "Removing pet with name '$name'.<br>";
+    global $pets;
+    if (array_key_exists($name, $pets)) {
+        unset($pets[$name]);
+        return true;
+    } else {
+        return false;
+    }
 }
+
+$pets = [];
+/*
+$pets = [
+    'Caramel' => [
+        'name' => 'Caramel',
+        'age' => 3,
+    ],
+    'Rex' => [
+        'name' => 'Rex',
+        'age' => 8,
+    ],
+    'Tweety' => [
+        'name' => 'Tweety',
+        'age' => 1,
+    ],
+    'Godzilla' => [
+        'name' => 'Godzilla',
+        'age' => 4,
+    ]
+];
+*/
