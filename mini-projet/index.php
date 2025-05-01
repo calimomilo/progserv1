@@ -1,28 +1,8 @@
 <?php
 // echo "Bienvenue dans le mini-projet de l'unité d'enseignement Programmation serveur 1 !";
 require "functions.php";
-addPet("Caramel", 3);
-addPet("Rex", 8);
-addPet("Tweety", 1);
-addPet("Godzilla", 4);
 
 $pets = getPets();
-
-$rex = getPet("Rex");
-print_r($rex);
-echo "<br>";
-
-$rex = updatePet("Rex", 9);
-print_r($rex);
-echo "<br>";
-
-$success = removePet("Tweety");
-var_dump($success);
-echo "<br>";
-
-$tweety = getPet("Tweety");
-var_dump($tweety);
-echo "<br>";
 ?>
 
 <!DOCTYPE html>
@@ -49,14 +29,22 @@ echo "<br>";
     <thead>
     <tr>
         <th>Nom</th>
+        <th>Espèce</th>
+        <th>Sexe</th>
         <th>Age</th>
+        <th>Actions</th>
     </tr>
     </thead>
     <tbody>
     <?php foreach ($pets as $pet) { ?>
     <tr>
-        <td><?= $pet['name'] ?></td>        <!-- <\?= ?> équivalent à <\?php echo ?> -->
+        <td><?= $pet['name'] ?></td><!-- <\?= ?> équivalent à <\?php echo ?> -->
+        <td><?= $pet['species'] ?></td>
+        <td><?= $pet['sex'] ?></td>
         <td><?= $pet['age'] ?> an(s)</td>
+        <td>
+            <a href="delete.php?id=<?= $pet['id'] ?>"><button>Supprimer</button></a>
+            <a href="view.php?id=<?= $pet['id'] ?>"><button>Visualiser</button></a> </td>
     </tr>
     <?php } ?>
     </tbody>

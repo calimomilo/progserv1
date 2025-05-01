@@ -1,7 +1,7 @@
 <?php
+require "functions.php";
+
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
-    echo "Le contenu de la variable '\$_POST' est : ";
-    var_dump($_POST);
 
     $name = $_POST["name"];
     $species = $_POST["species"];
@@ -41,6 +41,24 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
     if (!empty($size) && (!is_numeric($size) || $size < 0)) {
         array_push($errors, "La taille doit être un nombre positif.");
+    }
+
+    if (empty($errors)) {
+        // On ajoute l'animal à la base de données
+        $petId = addPet(
+            $name,
+            $species,
+            $nickname,
+            $sex,
+            $age,
+            $colour,
+            $personalities,
+            $size,
+            $notes
+        );
+
+        header("Location: index.php");
+        exit();
     }
 }
 ?>
@@ -252,36 +270,36 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     <br>
 
     <fieldset>
-        <legend>Personnalité :</legend>
+        <legend>Personnalité</legend>
 
         <div>
             <input type="checkbox" id="kind" name="personalities[]" value="kind"
-                <?php if (in_array("kind", $personalities)) echo "checked"?>>
+                <?php if (isset($personalities) && in_array("kind", $personalities)) echo "checked"?>>
             <label for="kind">Gentil</label>
         </div>
         <div>
             <input type="checkbox" id="playful" name="personalities[]" value="playful"
-                <?php if (in_array("playful", $personalities)) echo "checked"?>>
+                <?php if (isset($personalities) && in_array("playful", $personalities)) echo "checked"?>>
             <label for="playful">Joueur</label>
         </div>
         <div>
             <input type="checkbox" id="curious" name="personalities[]" value="curious"
-                <?php if (in_array("curious", $personalities)) echo "checked"?>>
+                <?php if (isset($personalities) && in_array("curious", $personalities)) echo "checked"?>>
             <label for="curious">Curieux</label>
         </div>
         <div>
             <input type="checkbox" id="lazy" name="personalities[]" value="lazy"
-                <?php if (in_array("lazy", $personalities)) echo "checked"?>>
+                <?php if (isset($personalities) && in_array("lazy", $personalities)) echo "checked"?>>
             <label for="lazy">Paresseux</label>
         </div>
         <div>
             <input type="checkbox" id="scaredy" name="personalities[]" value="scaredy"
-                <?php if (in_array("scaredy", $personalities)) echo "checked"?>>
+                <?php if (isset($personalities) && in_array("scaredy", $personalities)) echo "checked"?>>
             <label for="scaredy">Peureux</label>
         </div>
         <div>
             <input type="checkbox" id="aggressive" name="personalities[]" value="aggressive"
-                <?php if (in_array("aggressive", $personalities)) echo "checked"?>>
+                <?php if (isset($personalities) && in_array("aggressive", $personalities)) echo "checked"?>>
             <label for="aggressive">Agressif</label>
         </div>
     </fieldset>

@@ -1,25 +1,80 @@
 <?php
+
+require 'database.php';
 function getPets() {
-    global $pets;
+    global $pdo;
+
+    $sql = 'SELECT * FROM pets';
+
+    $pets = $pdo->query($sql);
+
+    $pets = $pets->fetchAll();
+
+    foreach ($pets as $pet) {
+        if (!empty($pet['personalities'])) {
+            $pet['personalities'] = explode(",", $pet['personalities']);
+        }
+    }
     return $pets;
 }
 
-function getPet($name) {
-    global $pets;
-    if (array_key_exists($name, $pets)) {
-        return $pets[$name];
-    } else {
-        return false;
+function getPet($id) {
+    global $pdo;
+
+    $sql = "SELECT * FROM pets WHERE id = '$id'";
+
+    $pet = $pdo->query($sql);
+
+    $pet = $pet->fetch();
+
+    if ($pet && !empty($pet['personalities'])) {
+        $pet['personalities'] = explode(",", $pet['personalities']);
     }
+
+    return $pet;
 }
 
-function addPet($name, $age) {
-    global $pets;
-    $pets[$name] = [
-        'name' => $name,
-        'age' => $age
-    ];
-    return $pets[$name];
+function addPet(
+    $name,
+    $species,
+    $nickname,
+    $sex,
+    $age,
+    $colour,
+    $personalities,
+    $size,
+    $notes) {
+
+    global $pdo;
+
+    $personalitiesAsString = implode(",", $personalities);
+
+    $sql = "INSERT INTO pets (
+        name,
+        species,
+        nickname,
+        sex,
+        age,
+        colour,
+        personalities,
+        size,
+        notes
+    ) VALUES (
+        '$name',
+        '$species',
+        '$nickname',
+        '$sex',
+        '$age',
+        '$colour',
+        '$personalitiesAsString',
+        '$size',
+        '$notes'
+        )";
+
+    $pdo->exec($sql);
+
+    $petId = $pdo->lastInsertId();
+    return $petId;
 }
 
 function updatePet($name, $age) {
@@ -32,34 +87,10 @@ function updatePet($name, $age) {
     }
 }
 
-function removePet($name) {
-    global $pets;
-    if (array_key_exists($name, $pets)) {
-        unset($pets[$name]);
-        return true;
-    } else {
-        return false;
-    }
-}
+function removePet($id) {
+    global $pdo;
 
-$pets = [];
-/*
-$pets = [
-    'Caramel' => [
-        'name' => 'Caramel',
-        'age' => 3,
-    ],
-    'Rex' => [
-        'name' => 'Rex',
-        'age' => 8,
-    ],
-    'Tweety' => [
-        'name' => 'Tweety',
-        'age' => 1,
-    ],
-    'Godzilla' => [
-        'name' => 'Godzilla',
-        'age' => 4,
-    ]
-];
-*/
+    $sql = "DELETE FROM pets WHERE id = '$id'";
+
+    return $pdo->exec($sql);
+}
