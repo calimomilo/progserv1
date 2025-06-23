@@ -137,15 +137,11 @@ if (isset($_GET["id"])) {
 
     <br>
 
-    <label for="species">Espèce :</label><br>
+    <label for="species">Espèce :</label>
     <select id="species" disabled>
-        <option value="dog" <?= htmlspecialchars($pet["species"]) == "dog" ? "selected" : "" ?>>Chien</option>
-        <option value="cat" <?= htmlspecialchars($pet["species"]) == "cat" ? "selected" : "" ?>>Chat</option>
-        <option value="lizard" <?= htmlspecialchars($pet["species"]) == "lizard" ? "selected" : "" ?>>Lézard</option>
-        <option value="snake" <?= htmlspecialchars($pet["species"]) == "snake" ? "selected" : "" ?>>Serpent</option>
-        <option value="bird" <?= htmlspecialchars($pet["species"]) == "bird" ? "selected" : "" ?>>Oiseau</option>
-        <option value="rabbit" <?= htmlspecialchars($pet["species"]) == "rabbit" ? "selected" : "" ?>>Lapin</option>
-        <option value="other" <?= htmlspecialchars($pet["species"]) == "other" ? "selected" : "" ?>>Autre</option>
+        <?php foreach (Pet::SPECIES as $key => $value) { ?>
+            <option value="<?= $key ?>" <?= $pet["species"] == $key ? "selected" : "" ?>><?= $value ?></option>
+        <?php } ?>
     </select>
 
     <br>
@@ -156,11 +152,10 @@ if (isset($_GET["id"])) {
     <fieldset>
         <legend>Sexe :</legend>
 
-        <input type="radio" id="male" <?= htmlspecialchars($pet["sex"]) == "male" ? "checked" : "" ?> disabled />
-        <label for="male">Mâle</label><br>
-
-        <input type="radio" id="female" <?= htmlspecialchars($pet["sex"]) == "female" ? "checked" : "" ?> disabled />
-        <label for="female">Femelle</label>
+        <?php foreach (Pet::SEXES as $key => $value) { ?>
+            <input type="radio" id="<?= $key ?>" <?= $pet["sex"] == $key ? "checked" : "" ?> disabled />
+            <label for="<?= $key ?>"><?= $value ?></label>
+        <?php } ?>
     </fieldset>
 
     <br>
@@ -176,35 +171,12 @@ if (isset($_GET["id"])) {
     <fieldset>
         <legend>Personnalité :</legend>
 
-        <div>
-            <input type="checkbox" id="gentil" <?= !empty($pet["personalities"]) && in_array("gentil", $pet["personalities"]) ? "checked" : "" ?> disabled />
-            <label for="gentil">Gentil</label>
-        </div>
-
-        <div>
-            <input type="checkbox" id="playful" <?= !empty($pet["personalities"]) && in_array("playful", $pet["personalities"]) ? "checked" : "" ?> disabled />
-            <label for="playful">Joueur</label>
-        </div>
-
-        <div>
-            <input type="checkbox" id="curious" <?= !empty($pet["personalities"]) && in_array("curious", $pet["personalities"]) ? "checked" : "" ?> disabled />
-            <label for="curious">Curieux</label>
-        </div>
-
-        <div>
-            <input type="checkbox" id="lazy" <?= !empty($pet["personalities"]) && in_array("lazy", $pet["personalities"]) ? "checked" : "" ?> disabled />
-            <label for="lazy">Paresseux</label>
-        </div>
-
-        <div>
-            <input type="checkbox" id="scared" <?= !empty($pet["personalities"]) && in_array("scared", $pet["personalities"]) ? "checked" : "" ?> disabled />
-            <label for="scared">Peureux</label>
-        </div>
-
-        <div>
-            <input type="checkbox" id="aggressive" <?= !empty($pet["personalities"]) && in_array("aggressive", $pet["personalities"]) ? "checked" : "" ?> disabled />
-            <label for="aggressive">Agressif</label>
-        </div>
+        <?php foreach (Pet::PERSONALITIES as $key => $value) { ?>
+            <div>
+                <input type="checkbox" id="<?= $key ?>" <?= !empty($pet["personalities"]) && in_array($key, $pet["personalities"]) ? "checked" : "" ?> disabled />
+                <label for="<?= $key ?>"><?= $value ?></label>
+            </div>
+        <?php } ?>
     </fieldset>
 
     <br>

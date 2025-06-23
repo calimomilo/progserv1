@@ -215,15 +215,11 @@ if (isset($_GET["id"])) {
 
         <br>
 
-        <label for="species">Espèce :</label><br>
+        <label for="species">Espèce :</label>
         <select id="species" name="species" required>
-            <option value="dog" <?= isset($species) && $species == "dog" ? "selected" : "" ?>>Chien</option>
-            <option value="cat" <?= isset($species) && $species == "cat" ? "selected" : "" ?>>Chat</option>
-            <option value="lizard" <?= isset($species) && $species == "lizard" ? "selected" : "" ?>>Lézard</option>
-            <option value="snake" <?= isset($species) && $species == "snake" ? "selected" : "" ?>>Serpent</option>
-            <option value="bird" <?= isset($species) && $species == "bird" ? "selected" : "" ?>>Oiseau</option>
-            <option value="rabbit" <?= isset($species) && $species == "rabbit" ? "selected" : "" ?>>Lapin</option>
-            <option value="other" <?= isset($species) && $species == "other" ? "selected" : "" ?>>Autre</option>
+            <?php foreach (Pet::SPECIES as $key => $value) { ?>
+                <option value="<?= $key ?>" <?php if (isset($species) && $species == $key) echo "selected"; ?>><?= $value ?></option>
+            <?php } ?>
         </select>
 
         <br>
@@ -234,11 +230,10 @@ if (isset($_GET["id"])) {
         <fieldset>
             <legend>Sexe :</legend>
 
-            <input type="radio" id="male" name="sex" value="male" <?= isset($sex) && $sex == "male" ? "checked" : "" ?> required />
-            <label for="male">Mâle</label><br>
-
-            <input type="radio" id="female" name="sex" value="female" <?= isset($sex) && $sex == "female" ? "checked" : ""; ?> required />
-            <label for="female">Femelle</label>
+            <?php foreach (Pet::SEXES as $key => $value) { ?>
+                <input type="radio" id="<?= $key ?>" name="sex" value="<?= $key ?>" <?php echo (isset($sex) && $sex == $key) ? 'checked' : ''; ?> required />
+                <label for="<?= $key ?>"><?= $value ?></label>
+            <?php } ?>
         </fieldset>
 
         <br>
@@ -254,35 +249,12 @@ if (isset($_GET["id"])) {
         <fieldset>
             <legend>Personnalité :</legend>
 
-            <div>
-                <input type="checkbox" id="gentil" name="personalities[]" value="gentil" <?= !empty($personalities) && in_array("gentil", $personalities) ? "checked" : "" ?> />
-                <label for="gentil">Gentil</label>
-            </div>
-
-            <div>
-                <input type="checkbox" id="playful" name="personalities[]" value="playful" <?= !empty($personalities) && in_array("playful", $personalities) ? "checked" : "" ?> />
-                <label for="playful">Joueur</label>
-            </div>
-
-            <div>
-                <input type="checkbox" id="curious" name="personalities[]" value="curious" <?= !empty($personalities) && in_array("curious", $personalities) ? "checked" : "" ?> />
-                <label for="curious">Curieux</label>
-            </div>
-
-            <div>
-                <input type="checkbox" id="lazy" name="personalities[]" value="lazy" <?= !empty($personalities) && in_array("lazy", $personalities) ? "checked" : "" ?> />
-                <label for="lazy">Paresseux</label>
-            </div>
-
-            <div>
-                <input type="checkbox" id="scared" name="personalities[]" value="scared" <?= !empty($personalities) && in_array("scared", $personalities) ? "checked" : "" ?> />
-                <label for="scared">Peureux</label>
-            </div>
-
-            <div>
-                <input type="checkbox" id="aggressive" name="personalities[]" value="aggressive" <?= !empty($personalities) && in_array("aggressive", $personalities) ? "checked" : "" ?> />
-                <label for="aggressive">Agressif</label>
-            </div>
+            <?php foreach (Pet::PERSONALITIES as $key => $value) { ?>
+                <div>
+                    <input type="checkbox" id="<?= $key ?>" name="personalities[]" value="<?= $key ?>" <?= (!empty($personalities) && in_array($key, $personalities)) ? 'checked' : ''; ?> />
+                    <label for="<?= $key ?>"><?= $value ?></label>
+                </div>
+            <?php } ?>
         </fieldset>
 
         <br>

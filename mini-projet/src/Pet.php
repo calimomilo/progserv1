@@ -16,6 +16,15 @@ class Pet {
         'female' => 'Femelle'
     ];
 
+    const PERSONALITIES = [
+        'gentil' => 'Gentil',
+        'playful' => 'Joueur',
+        'curious' => 'Curieux',
+        'lazy' => 'Paresseux',
+        'scared' => 'Peureux',
+        'aggressive' => 'Agressif'
+    ];
+
     private $name;
     private $species;
     private $nickname;
