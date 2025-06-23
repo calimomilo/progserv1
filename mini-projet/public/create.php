@@ -181,6 +181,11 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     <label for="species">Espèce :</label>
     <br>
     <select id="species" name="species" required>
+
+        <!--
+            <option value="dog" <.?= isset($species) && $species == "dog" ? "selected" : "" ?>>Chien</option>
+            -->
+
         <?php foreach (Pet::SPECIES as $key => $value) {?>
         <option value="<?= $key ?>" <?php if (isset($species) && $species=="dog") echo "selected"?>>
             <?= $value ?>
@@ -199,6 +204,11 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
     <fieldset>
         <legend>Sexe :</legend>
+
+        <!--
+            <input type="radio" id="male" name="sex" value="male" <.?= isset($sex) && $sex == "male" ? "checked" : "" ?> required />
+            <label for="male">Mâle</label><br>
+            -->
 
         <?php foreach (Pet::SEXES as $key => $value) { ?>
             <input type="radio" id="<?= $key ?>" name="sex" value="<?= $key ?>" <?php echo (isset($sex) && $sex == $key) ? 'checked' : ''; ?> required />
@@ -225,6 +235,13 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
     <fieldset>
         <legend>Personnalité :</legend>
+
+        <!--
+            <div>
+                <input type="checkbox" id="playful" name="personalities[]" value="playful" <.?= !empty($personalities) && in_array("playful", $personalities) ? "checked" : "" ?> />
+                <label for="playful">Joueur</label>
+            </div>
+            -->
 
         <?php foreach (Pet::PERSONALITIES as $key => $value) { ?>
             <div>
