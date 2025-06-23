@@ -37,15 +37,17 @@ $pets = getPets();
     </thead>
     <tbody>
     <?php foreach ($pets as $pet) { ?>
-    <tr>
-        <td><?= $pet['name'] ?></td><!-- <\?= ?> équivalent à <\?php echo ?> -->
-        <td><?= $pet['species'] ?></td>
-        <td><?= $pet['sex'] ?></td>
-        <td><?= $pet['age'] ?> an(s)</td>
-        <td>
-            <a href="delete.php?id=<?= $pet['id'] ?>"><button>Supprimer</button></a>
-            <a href="view.php?id=<?= $pet['id'] ?>"><button>Visualiser</button></a> </td>
-    </tr>
+        <tr>
+            <td><?= htmlspecialchars($pet['name']) ?></td>
+            <td><?= htmlspecialchars($pet['species']) ?></td>
+            <td><?= htmlspecialchars($pet['sex']) ?></td>
+            <td><?= htmlspecialchars($pet['age']) ?></td>
+            <td>
+                <a href="delete.php?id=<?= htmlspecialchars($pet['id']) ?>"><button>Supprimer</button></a>
+                <a href="edit.php?id=<?= htmlspecialchars($pet['id']) ?>"><button>Éditer</button></a>
+                <a href="view.php?id=<?= htmlspecialchars($pet['id']) ?>"><button>Visualiser</button></a>
+            </td>
+        </tr>
     <?php } ?>
     </tbody>
 </table>

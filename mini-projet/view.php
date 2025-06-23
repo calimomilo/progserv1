@@ -131,33 +131,33 @@ if (isset($_GET["id"])) {
 
 <form>
     <label for="name">Nom :</label><br>
-    <input type="text" id="name" value="<?= $pet["name"] ?>" disabled />
+    <input type="text" id="name" value="<?= htmlspecialchars($pet["name"]) ?>" disabled />
 
     <br>
 
     <label for="species">Espèce :</label><br>
     <select id="species" disabled>
-        <option value="dog" <?= $pet["species"] == "dog" ? "selected" : "" ?>>Chien</option>
-        <option value="cat" <?= $pet["species"] == "cat" ? "selected" : "" ?>>Chat</option>
-        <option value="lizard" <?= $pet["species"] == "lizard" ? "selected" : "" ?>>Lézard</option>
-        <option value="snake" <?= $pet["species"] == "snake" ? "selected" : "" ?>>Serpent</option>
-        <option value="bird" <?= $pet["species"] == "bird" ? "selected" : "" ?>>Oiseau</option>
-        <option value="rabbit" <?= $pet["species"] == "rabbit" ? "selected" : "" ?>>Lapin</option>
-        <option value="other" <?= $pet["species"] == "other" ? "selected" : "" ?>>Autre</option>
+        <option value="dog" <?= htmlspecialchars($pet["species"]) == "dog" ? "selected" : "" ?>>Chien</option>
+        <option value="cat" <?= htmlspecialchars($pet["species"]) == "cat" ? "selected" : "" ?>>Chat</option>
+        <option value="lizard" <?= htmlspecialchars($pet["species"]) == "lizard" ? "selected" : "" ?>>Lézard</option>
+        <option value="snake" <?= htmlspecialchars($pet["species"]) == "snake" ? "selected" : "" ?>>Serpent</option>
+        <option value="bird" <?= htmlspecialchars($pet["species"]) == "bird" ? "selected" : "" ?>>Oiseau</option>
+        <option value="rabbit" <?= htmlspecialchars($pet["species"]) == "rabbit" ? "selected" : "" ?>>Lapin</option>
+        <option value="other" <?= htmlspecialchars($pet["species"]) == "other" ? "selected" : "" ?>>Autre</option>
     </select>
 
     <br>
 
     <label for="nickname">Surnom :</label><br>
-    <input type="text" id="nickname" value="<?= $pet["nickname"] ?>" disabled />
+    <input type="text" id="nickname" value="<?= htmlspecialchars($pet["nickname"]) ?>" disabled />
 
     <fieldset>
         <legend>Sexe :</legend>
 
-        <input type="radio" id="male" <?= $pet["sex"] == "male" ? "checked" : "" ?> disabled />
+        <input type="radio" id="male" <?= htmlspecialchars($pet["sex"]) == "male" ? "checked" : "" ?> disabled />
         <label for="male">Mâle</label><br>
 
-        <input type="radio" id="female" <?= $pet["sex"] == "female" ? "checked" : "" ?> disabled />
+        <input type="radio" id="female" <?= htmlspecialchars($pet["sex"]) == "female" ? "checked" : "" ?> disabled />
         <label for="female">Femelle</label>
     </fieldset>
 
@@ -217,6 +217,13 @@ if (isset($_GET["id"])) {
 
     <br>
     <br>
+
+    <a href="delete.php?id=<?= htmlspecialchars($pet["id"]) ?>">
+        <button type="button">Supprimer</button>
+    </a><br>
+    <a href="edit.php?id=<?= htmlspecialchars($pet["id"]) ?>">
+        <button type="button">Mettre à jour</button>
+    </a>
 </form>
 </body>
 

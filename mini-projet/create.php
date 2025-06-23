@@ -193,7 +193,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     <label for="name">Nom :</label>
     <br>
     <input type="text" id="name" name="name"
-           value="<?php echo $name ?? '' ?>"
+           value="<?php if (isset($name)) echo htmlspecialchars($name); ?>"
            required minlength="2">
 
     <br>
@@ -236,7 +236,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     <label for="nickname">Surnom</label>
     <br>
     <input type="text" id="nickname" name="nickname"
-           value="<?php echo $nickname ?? '' ?>">
+           value="<?php if (isset($nickname)) echo htmlspecialchars($nickname); ?>">
 
     <br>
 
@@ -257,7 +257,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     <label for="age">Âge :</label>
     <br>
     <input type="number" id="age" name="age"
-           value="<?php echo $age ?? ''?>"
+           value="<?php if (isset($age)) echo htmlspecialchars($age); ?>"
            required min="0">
 
     <br>
@@ -265,7 +265,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     <label for="colour">Couleur :</label>
     <br>
     <input type="color" id="colour" name="colour"
-           value="<?php echo $colour ?? ''?>">
+           value="<?php if (isset($colour)) echo htmlspecialchars($colour); ?>">
 
     <br>
 
@@ -309,13 +309,13 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     <label for="size">Taille :</label>
     <br>
     <input type="number" id="size" name="size"
-    value="<?php echo $size ?? ''?>" min="0" step="0.1">
+    value="<?php if (isset($size)) echo htmlspecialchars($size);?>" min="0" step="0.1">
 
     <br>
 
     <label for="notes">Notes :</label>
     <br>
-    <textarea id="notes" name="notes" rows="4" cols="50"><?php echo $notes ?? ''?></textarea>
+    <textarea id="notes" name="notes" rows="4" cols="50"><?php if (isset($notes)) echo htmlspecialchars($notes); ?></textarea>
 
     <br>
     <br>
