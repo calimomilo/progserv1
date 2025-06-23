@@ -1,5 +1,7 @@
 <?php
-require "functions.php";
+require '../src/PetsManager.php';
+
+$petsManager = new PetsManager();
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
@@ -8,55 +10,33 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $nickname = $_POST["nickname"];
     $sex = $_POST["sex"];
     $age = $_POST["age"];
-    $colour = $_POST["colour"];
-    $personalities = $_POST["personalities"] ?? [];
+    $color = $_POST["color"];
+    $personalities = $_POST["personalities"] ?? []; // équivalent de isset($_POST["personalities"]) ? $_POST["personalities"] : [];
     $size = $_POST["size"];
     $notes = $_POST["notes"];
 
-    $errors = [];
+    // On crée un nouvel objet 'Pet'
+    $pet = new Pet(
+        $name,
+        $species,
+        $nickname,
+        $sex,
+        $age,
+        $color,
+        $personalities,
+        $size,
+        $notes
+    );
 
-    if (empty($name)) {
-        array_push($errors, "Le nom est obligatoire.");
-    }
+    // On valide les données
+    $errors = $pet->validate();
 
-    if (strlen($name) < 2) {
-        array_push($errors, "Le nom doit contenir au moins 2 caractères.");
-    }
-
-    if (empty($species)) {
-        array_push($errors, "L'espèce est obligatoire.");
-    }
-
-    if (empty($sex)) {
-        array_push($errors, "Le sexe est obligatoire.");
-    }
-
-    if (empty($age)) {
-        array_push($errors, "L'âge est obligatoire.");
-    }
-
-    if (!is_numeric($age) || $age < 0) {
-        array_push($errors, "L'âge doit être un nombre entier positif.");
-    }
-
-    if (!empty($size) && (!is_numeric($size) || $size < 0)) {
-        array_push($errors, "La taille doit être un nombre positif.");
-    }
-
+    // Si le formulaire est valide, on met à jour l'animal
     if (empty($errors)) {
         // On ajoute l'animal à la base de données
-        $petId = addPet(
-            $name,
-            $species,
-            $nickname,
-            $sex,
-            $age,
-            $colour,
-            $personalities,
-            $size,
-            $notes
-        );
+        $petId = $petsManager->addPet($pet);
 
+        // On redirige vers la page d'accueil avec tous les animaux
         header("Location: index.php");
         exit();
     }
@@ -262,10 +242,10 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
     <br>
 
-    <label for="colour">Couleur :</label>
+    <label for="color">Couleur :</label>
     <br>
-    <input type="color" id="colour" name="colour"
-           value="<?php if (isset($colour)) echo htmlspecialchars($colour); ?>">
+    <input type="color" id="color" name="color"
+           value="<?php if (isset($color)) echo htmlspecialchars($color); ?>">
 
     <br>
 

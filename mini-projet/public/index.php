@@ -1,8 +1,11 @@
 <?php
-// echo "Bienvenue dans le mini-projet de l'unité d'enseignement Programmation serveur 1 !";
-require "functions.php";
+require '../src/PetsManager.php';
 
-$pets = getPets();
+// On crée une instance de PetsManager
+$petsManager = new PetsManager();
+
+// On récupère tous les animaux de compagnie
+$pets = $petsManager->getPets();
 ?>
 
 <!DOCTYPE html>
@@ -39,8 +42,8 @@ $pets = getPets();
     <?php foreach ($pets as $pet) { ?>
         <tr>
             <td><?= htmlspecialchars($pet['name']) ?></td>
-            <td><?= htmlspecialchars($pet['species']) ?></td>
-            <td><?= htmlspecialchars($pet['sex']) ?></td>
+            <td><?= Pet::SPECIES[htmlspecialchars($pet['species'])] ?></td>
+            <td><?= Pet::SEXES[htmlspecialchars($pet['sex'])] ?></td>
             <td><?= htmlspecialchars($pet['age']) ?></td>
             <td>
                 <a href="delete.php?id=<?= htmlspecialchars($pet['id']) ?>"><button>Supprimer</button></a>

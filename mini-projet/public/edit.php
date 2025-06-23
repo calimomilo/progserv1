@@ -1,5 +1,7 @@
 <?php
-require 'functions.php';
+require '../src/PetsManager.php';
+
+$petsManager = new PetsManager();
 
 // On vérifie si l'ID de l'animal est passé dans l'URL
 if (isset($_GET["id"])) {
@@ -7,7 +9,7 @@ if (isset($_GET["id"])) {
     $petId = $_GET["id"];
 
     // On récupère l'animal correspondant à l'ID
-    $pet = getPet($petId);
+    $pet = $petsManager->getPet($petId);
 
     // Si l'animal n'existe pas, on redirige vers la page d'accueil
     if (!$pet) {
@@ -21,7 +23,7 @@ if (isset($_GET["id"])) {
         $nickname = $pet['nickname'];
         $sex = $pet['sex'];
         $age = $pet['age'];
-        $colour = $pet['colour'];
+        $color = $pet['color'];
         $personalities = $pet['personalities'];
         $size = $pet['size'];
         $notes = $pet['notes'];
@@ -36,65 +38,31 @@ if (isset($_GET["id"])) {
     $nickname = $_POST["nickname"];
     $sex = $_POST["sex"];
     $age = $_POST["age"];
-    $colour = $_POST["colour"];
-    $personalities = isset($_POST["personalities"]) ? $_POST["personalities"] : [];
+    $color = $_POST["color"];
+    $personalities = isset($_POST["personalities"]) ? $_POST["personalities"] : []; // can be replaced by $_POST["personalities"] ?? [];
     $size = $_POST["size"];
     $notes = $_POST["notes"];
 
-    // Par défaut, il n'y a pas d'erreurs
-    $errors = [];
+    // On crée un nouvel objet 'Pet'
+    $pet = new Pet(
+        $name,
+        $species,
+        $nickname,
+        $sex,
+        $age,
+        $color,
+        $personalities,
+        $size,
+        $notes
+    );
 
-    // Validation des données
-    if (empty($name)) {
-        // On ajoute un message d'erreur au tableau
-        array_push($errors, "Le nom est obligatoire.");
-    }
-
-    if (strlen($name) < 2) {
-        // On ajoute un message d'erreur au tableau
-        array_push($errors, "Le nom doit contenir au moins 2 caractères.");
-    }
-
-    if (empty($species)) {
-        // On ajoute un message d'erreur au tableau
-        array_push($errors, "L'espèce est obligatoire.");
-    }
-
-    if (empty($sex)) {
-        // On ajoute un message d'erreur au tableau
-        array_push($errors, "Le sexe est obligatoire.");
-    }
-
-    if (empty($age)) {
-        // On ajoute un message d'erreur au tableau
-        array_push($errors, "L'âge est obligatoire.");
-    }
-
-    if (!is_numeric($age) || $age < 0) {
-        // On ajoute un message d'erreur au tableau
-        array_push($errors, "L'âge doit être un nombre entier positif.");
-    }
-
-    if (!empty($size) && (!is_numeric($size) || $size < 0)) {
-        // On ajoute un message d'erreur au tableau
-        array_push($errors, "La taille doit être un nombre entier positif.");
-    }
+    // On valide les données
+    $errors = $pet->validate();
 
     // Si le formulaire est valide, on met à jour l'animal
     if (empty($errors)) {
         // On met à jour l'animal dans la base de données
-        $success = updatePet(
-            $id,
-            $name,
-            $species,
-            $nickname,
-            $sex,
-            $age,
-            $colour,
-            $personalities,
-            $size,
-            $notes
-        );
+        $success = $petsManager->updatePet($id, $pet);
 
         // On vérifie si la mise à jour a réussi
         if ($success) {
@@ -281,7 +249,7 @@ if (isset($_GET["id"])) {
         <br>
 
         <label for="color">Couleur :</label><br>
-        <input type="color" id="color" name="color" value="<?= isset($colour) ? htmlspecialchars($colour) : "" ?>" />
+        <input type="color" id="color" name="color" value="<?= isset($color) ? htmlspecialchars($color) : "" ?>" />
 
         <fieldset>
             <legend>Personnalité :</legend>
@@ -330,7 +298,7 @@ if (isset($_GET["id"])) {
         <br>
         <br>
 
-        <a href="delete.php?id=<?= htmlspecialchars($pet["id"]) ?>">
+        <a href="delete.php?id=<?= htmlspecialchars($pet['id'])?>">
             <button type="button">Supprimer</button>
         </a><br>
         <button type="submit">Mettre à jour</button><br>

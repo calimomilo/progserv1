@@ -1,10 +1,12 @@
 <?php
-require 'functions.php';
+require '../src/PetsManager.php';
+
+$petsManager = new PetsManager();
 
 if (isset($_GET["id"])) {
     $petId = $_GET["id"];
 
-    $pet = getPet($petId);
+    $pet = $petsManager->getPet($petId);
 
     if (!$pet) {
         header("Location: index.php");
@@ -218,10 +220,10 @@ if (isset($_GET["id"])) {
     <br>
     <br>
 
-    <a href="delete.php?id=<?= htmlspecialchars($pet["id"]) ?>">
+    <a href="delete.php?id=<?= htmlspecialchars($pet['id'])?>">
         <button type="button">Supprimer</button>
     </a><br>
-    <a href="edit.php?id=<?= htmlspecialchars($pet["id"]) ?>">
+    <a href="edit.php?id=<?= htmlspecialchars($pet['id'])?>">
         <button type="button">Mettre à jour</button>
     </a>
 </form>
