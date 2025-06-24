@@ -65,10 +65,10 @@ if (isset($_GET["id"])) {
                                                         }
                                                         ?>" disabled />
 
-            <a href="delete.php?id=<?= htmlspecialchars($project[">
+            <a href="delete.php?id=<?= htmlspecialchars($project['id']) ?>">
                 <button type="button">Supprimer</button>
             </a>
-            <a href="edit.php?id=<?= htmlspecialchars($project[">
+            <a href="edit.php?id=<?= htmlspecialchars($project['id']) ?>">
                 <button type="button">Mettre à jour</button>
             </a>
         </form>
