@@ -1,4 +1,7 @@
 <?php
+
+use classes\Database;
+
 require 'Database.php';
 require 'Pet.php';
 
